@@ -1,12 +1,14 @@
 :root {
 	/* Dynamic font-size -- screen width */
-	font-size: 2vw;
+	font-size: 3vh;
 
 	/* Color Pallete -- Mixed Dark Mode */
 	--color-primary-500: #a688fa;
 	--color-surface-mixed-100: #1a1625;
 	--color-surface-mixed-200: #2f2b3a;
 	--color-surface-mixed-300: #46424f;
+
+	color: azure;
 }
 
 body {
@@ -36,8 +38,41 @@ header {
 }
 
 #sidebar {
-	width: 10vw;
+	width: 15vw;
 	height: auto;
 
 	background-color: var(--color-surface-mixed-300);
+}
+
+#content {
+	width: 100%;
+	height: auto;
+
+	display: grid;
+}
+
+#form-container {
+	display: none;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+
+	width: 50vw;
+	height: 50vh;
+
+	justify-content: center;
+
+	background-color: #2f2b3a;
+	border: 2px solid var(--color-surface-mixed-300);
+}
+
+#form-container form {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+footer {
+	display: flex;
+	justify-content: center;
 }
