@@ -96,6 +96,11 @@ button {
 	border: 2px solid var(--color-surface-mixed-300);
 }
 
+/* This class will be added to required fields that are empty on submittion */
+.fail {
+	border: 2px solid red;
+}
+
 #form-container form {
 	display: flex;
 	flex-direction: column;
