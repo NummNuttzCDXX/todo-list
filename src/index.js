@@ -16,6 +16,14 @@ addBtn.addEventListener('click', () => {
 // Submit Button
 const subBtn = document.querySelector('button.submit');
 subBtn.addEventListener('click', () => {
+	// Check required fields are filled
+	if (!dom.checkRequired()) {
+		return; // If check fails, return and dont submit
+	} else {
+		// If check passes, remove the fail class
+		document.querySelectorAll('form :required').forEach(input => input.classList.remove('fail'));
+	}
+
 	let item = dom.subTodo();
 
 	toDos.push(item.newTodo);
