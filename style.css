@@ -51,6 +51,14 @@ header {
 	display: grid;
 }
 
+/* To Do Cards */
+.card {
+	width: 300px;
+	height: 150px;
+
+	background-color: var(--color-surface-mixed-200);
+}
+
 #form-container {
 	display: none;
 	position: absolute;
