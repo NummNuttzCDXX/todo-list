@@ -65,5 +65,25 @@ export const dom = (() => {
 		return { newTodo, card }
 	}
 
-	return { subTodo, content }
+	const checkRequired = () => {
+		const reqFields = document.querySelectorAll('form :required');
+		// Declare var to tell if check passed or not
+		let pass = true;
+
+		reqFields.forEach(input => {
+			if (input.nodeName === 'SELECT') {
+				if (input.value === 'default') {
+					input.classList.add('fail');
+					pass = false
+				};
+			} else if (input.value === '') {
+				input.classList.add('fail');
+				pass = false
+			};
+		})
+
+		return pass;
+	}
+
+	return { subTodo, checkRequired, content }
 })()
