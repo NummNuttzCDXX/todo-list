@@ -66,6 +66,15 @@ button {
 	background-color: var(--color-surface-mixed-300);
 }
 
+/* Create 'dropdown' */
+.dropdown-content {
+	display: none;
+}
+
+.dropdown-content ul {
+	list-style-type: none;
+}
+
 #content {
 	width: 100%;
 	height: auto;
