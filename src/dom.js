@@ -85,5 +85,13 @@ export const dom = (() => {
 		return pass;
 	}
 
-	return { subTodo, checkRequired, content }
+	const toggleDropdown = (dropdown) => {
+		if (dropdown.lastElementChild.style.display === 'block') {
+			dropdown.lastElementChild.style.display = 'none';
+		} else {
+			dropdown.lastElementChild.style.display = 'block';
+		}
+	}
+
+	return { subTodo, checkRequired, content, toggleDropdown }
 })()
