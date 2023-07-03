@@ -4,7 +4,7 @@ import { dom } from "./dom";
 
 // Declare array to hold ToDo Obj
 let toDos = [];
-// Declare default projects and array to hold them
+// Get dropdowns
 let dropdowns = document.querySelectorAll('.dropdown');
 
 // Sidebar Project Dropdown
@@ -40,3 +40,19 @@ subBtn.addEventListener('click', () => {
 	const formContainer = document.querySelector('#form-container');
 	formContainer.style.display = 'none';
 });
+
+// Add/Create Project listener
+const radioBtns = document.querySelectorAll('#form-container input[type="radio"]');
+radioBtns.forEach(btn => btn.addEventListener('change', () => {
+	const addProj = document.querySelector('label[for="add-proj"]');
+	const createProj = document.querySelector('label[for="create-proj"]');
+	const radioAdd = document.querySelector('input#add')
+
+	if (radioAdd.checked) {
+		addProj.classList.remove('hide');
+		createProj.classList.add('hide');
+	} else {
+		addProj.classList.add('hide');
+		createProj.classList.remove('hide');
+	}
+}))
