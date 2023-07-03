@@ -93,5 +93,49 @@ export const dom = (() => {
 		}
 	}
 
-	return { subTodo, checkRequired, content, toggleDropdown }
+	// Project Module -- For organisation
+	const projects = (() => {
+		// Create and add project dropdown to sidebar
+		const addToSidebar = (name) => {
+			const sidebar = document.querySelector('#sidebar');
+
+			// Create the dropdown
+			const dropdown = document.createElement('div');
+			dropdown.classList.add('dropdown');
+			dropdown.id = name;
+
+			const project = document.createElement('p');
+			project.textContent = name;
+			dropdown.appendChild(project);
+
+			// Create and add the dropdown-content
+			const dropContent = document.createElement('div');
+			dropContent.classList.add('dropdown-content');
+			dropdown.appendChild(dropContent);
+
+			const ul = document.createElement('ul');
+			dropContent.appendChild(ul);
+
+			// Add the listener for dropdown menu
+			dropdown.addEventListener('click', () => toggleDropdown(dropdown));
+
+			// Add dropdown to sidebar
+			sidebar.appendChild(dropdown);
+
+			return dropdown;
+		}
+
+		// Add ToDo to a project on the DOM
+		const addTodo = (projectDropdown, todo) => {
+			const ul = projectDropdown.lastElementChild.lastElementChild;
+			const li = document.createElement('li');
+
+			li.textContent = todo.title
+			ul.appendChild(li);
+		}
+
+		return { addToSidebar, addTodo }
+	})()
+
+	return { subTodo, checkRequired, content, toggleDropdown, projects }
 })()
