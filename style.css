@@ -110,10 +110,15 @@ button {
 	border: 2px solid red;
 }
 
-#form-container form {
+#form-container form, #form-container fieldset {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+}
+
+/* Create project inp hidden by default -- Until selected */
+.hide {
+	display: none;
 }
 
 footer {
