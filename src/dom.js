@@ -4,18 +4,6 @@ import { Todo } from "./todo";
 export const dom = (() => {
 	const content = document.querySelector('#content');
 
-	// Get values of inputs -- Globally
-	let titleInp = document.querySelector('form #title');
-	let descInp = document.querySelector('form #desc');
-	let dueInp = document.querySelector('form #due');
-	let priorityInp = document.querySelector('form #priority');
-	// This will take the value of inputs and create new object
-	const createTodo = () => {
-		let newTodo = Todo(titleInp.value, descInp.value, dueInp.value, priorityInp.value);
-
-		return newTodo;
-	}
-
 	const createCard = (item) => {
 		const card = document.createElement('div');
 		card.classList.add('card');
@@ -45,6 +33,11 @@ export const dom = (() => {
 	}
 
 	const clearInputs = () => {
+		let titleInp = document.querySelector('form #title');
+		let descInp = document.querySelector('form #desc');
+		let dueInp = document.querySelector('form #due');
+		let priorityInp = document.querySelector('form #priority');
+
 		titleInp.value = '';
 		descInp.value = '';
 		dueInp.value = '';
@@ -53,8 +46,36 @@ export const dom = (() => {
 
 	// This function will run when the submit button is clicked
 	const subTodo = () => {
-		// Create new Todo Object
-		let newTodo = createTodo();
+		// Get values of inputs
+		let titleInp = document.querySelector('form #title');
+		let descInp = document.querySelector('form #desc');
+		let dueInp = document.querySelector('form #due');
+		let priorityInp = document.querySelector('form #priority');
+		let project;
+
+		// Check radio btns
+		const radioBtn = document.querySelector('#form-container input[type="radio"]:checked');
+		if (radioBtn.id === 'add') {
+			project = document.querySelector('form #add-proj').value
+
+			// If no project is selected then use priority
+			if (project === 'default') project = priorityInp.value;
+		} else if (radioBtn.id === 'create') {
+			project = document.querySelector('form #create-proj').value
+		} else {
+			console.log('ERROR adding project to ToDo');
+		}
+
+		// Create Todo
+		let newTodo = Todo(titleInp.value, descInp.value, dueInp.value, priorityInp.value, project);
+
+		// Create and add Todo to Project sidebar
+		if (radioBtn.id === 'add') {
+			let dropdown = document.querySelector('#' + project)
+			projects.addTodo(dropdown, newTodo)
+		} else if (radioBtn.id === 'create') {
+			projects.addTodo(projects.addToSidebar(project), newTodo)
+		}
 
 		// Create card to hold Obj
 		let card = createCard(newTodo);
