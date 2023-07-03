@@ -37,11 +37,13 @@ export const dom = (() => {
 		let descInp = document.querySelector('form #desc');
 		let dueInp = document.querySelector('form #due');
 		let priorityInp = document.querySelector('form #priority');
+		let createProj = document.querySelector('form #create-proj');
 
 		titleInp.value = '';
 		descInp.value = '';
 		dueInp.value = '';
 		priorityInp.value = 'default';
+		createProj.value = '';
 	}
 
 	// This function will run when the submit button is clicked
