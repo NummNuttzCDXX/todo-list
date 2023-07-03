@@ -72,6 +72,23 @@
 				<option value="yellow">Medium</option>
 				<option value="red">High</option>
 			</select>
+			</label>
+			
+			<fieldset>
+				<legend>Add a Project or Create a New One</legend>
+
+				<label for="add"><input type="radio" name="project" id="add" checked>Add project</label>
+				<label for="create"><input type="radio" name="project" id="create">Create new project</label>
+
+				<label for="add-proj">Add Project:
+					<select name="add-proj" id="add-proj">
+						<option value="default">-- Add Project --</option>
+					</select>
+				</label>
+				<label for="create-proj" class="hide">New project name: <input type="text" id="create-proj"></label>
+			</fieldset>
+
+			
 
 			<button type="button" class="submit">Add</button>
 		</form>
