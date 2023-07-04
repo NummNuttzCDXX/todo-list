@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
 	<script src="main.js" defer></script>
 	<title>To-Do List</title>
 </head>
+
 <body>
 	<header>
 		<h1>My To-Do's</h1>
@@ -22,7 +24,7 @@
 				<p>High</p>
 				<div class="dropdown-content">
 					<ul>
-						<li>Project 1</li>
+						<li>Todo 1</li>
 						<li>Project 2</li>
 						<li>Project 3</li>
 					</ul>
@@ -59,19 +61,19 @@
 		<form action="">
 			<legend>Add To Do</legend>
 
-			<label for="title">Title: <input type="text" id="title"></label>
+			<label for="title">Title: <input type="text" id="title" required></label>
 
 			<label for="desc">Description: <input type="text" id="desc"></label>
 
 			<label for="due">Due Date: <input type="datetime-local" id="due"></label>
 
-			<label for="priority">Priority: </label>
-			<select name="priority" id="priority">
-				<option value="default" selected>-- Select Priority --</option>
-				<option value="green">Low</option>
-				<option value="yellow">Medium</option>
-				<option value="red">High</option>
-			</select>
+			<label for="priority">Priority: 
+				<select name="priority" id="priority" required>
+					<option value="default" selected>-- Select Priority --</option>
+					<option value="low">Low</option>
+					<option value="medium">Medium</option>
+					<option value="high">High</option>
+				</select>
 			</label>
 			
 			<fieldset>
@@ -94,6 +96,7 @@
 		</form>
 	</div>
 
-	<footer><span class="sig">NummNuttzCDXX</span> <a href=""><img src="" alt=""></a></footer>
+	<footer><span class="sig">NummNuttzCDXX</span> <a href="https://github.com/NummNuttzCDXX/todo-list"><img src="../src/img/github-mark-white.svg" alt="Github Icon"></a></footer>
 </body>
+
 </html>
