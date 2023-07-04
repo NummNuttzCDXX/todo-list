@@ -1,6 +1,6 @@
 :root {
 	/* Dynamic font-size -- screen width */
-	font-size: 3vh;
+	font-size: clamp(16px, 3vw, 3vh);
 
 	/* Color Pallete -- Mixed Dark Mode */
 	--color-primary-500: #a688fa;
@@ -39,6 +39,7 @@ header {
 
 .nav-container button {
 	margin-right: 20px;
+	margin-bottom: 10px;
 }
 
 button {
@@ -62,8 +63,14 @@ button {
 #sidebar {
 	width: 15vw;
 	height: auto;
+	margin-left: 5px;
 
 	background-color: var(--color-surface-mixed-300);
+	border-radius: 12px;
+}
+
+.dropdown {
+	margin-left: 5px;
 }
 
 /* Create 'dropdown' */
@@ -88,17 +95,19 @@ button {
 
 /* To Do Cards */
 .card {
-	width: 100%;
+	width: auto;
 	height: 75px;
+	padding: 5px;
 
 	background-color: var(--color-surface-mixed-200);
+	border-radius: 12px;
 
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: 1fr 1fr;
 }
 
-.card .title span {
+.card .title {
 	color: inherit;
 }
 
