@@ -15,14 +15,14 @@ export const dom = (() => {
 
 		// Description
 		const descContainer = document.createElement('div');
-		desc.classList.add('desc');
+		descContainer.classList.add('desc');
 
 		const descHead = document.createElement('h5');
 		descHead.classList.add('head');
 		descHead.textContent = 'Description: ';
 
 		const descContent = document.createElement('span');
-		descContainer.textContent = item.desc;
+		descContent.textContent = item.desc;
 
 		descContainer.appendChild(descHead);
 		descContainer.appendChild(descContent);		
