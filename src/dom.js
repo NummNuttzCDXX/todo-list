@@ -1,5 +1,6 @@
 // Dom Manipulation Module
 import { Todo } from "./todo";
+import { format, parseISO } from "date-fns";
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -60,6 +61,11 @@ export const dom = (() => {
 		createProj.value = '';
 	}
 
+	const dateFormat = (date) => {
+
+		return format(parseISO(date), 'PPpp');
+	}
+
 	// This function will run when the submit button is clicked
 	const subTodo = () => {
 		// Get values of inputs
@@ -83,7 +89,7 @@ export const dom = (() => {
 		}
 
 		// Create Todo
-		let newTodo = Todo(titleInp.value, descInp.value, dueInp.value, priorityInp.value, project);
+		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dueInp.value), priorityInp.value, project);
 
 		// Create and add Todo to Project sidebar
 		if (radioBtn.id === 'add') {
