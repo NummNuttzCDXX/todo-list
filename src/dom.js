@@ -8,24 +8,38 @@ export const dom = (() => {
 		const card = document.createElement('div');
 		card.classList.add('card');
 
+		// Title
 		const title = document.createElement('div');
 		title.classList.add('title');
 		title.textContent = item.title;
 
-		const desc = document.createElement('div');
+		// Description
+		const descContainer = document.createElement('div');
 		desc.classList.add('desc');
-		desc.textContent = item.desc;
 
+		const descHead = document.createElement('h5');
+		descHead.classList.add('head');
+		descHead.textContent = 'Description: ';
+
+		const descContent = document.createElement('span');
+		descContainer.textContent = item.desc;
+
+		descContainer.appendChild(descHead);
+		descContainer.appendChild(descContent);		
+
+		// Due Date
 		const due = document.createElement('div');
 		due.classList.add('due');
 		due.textContent = item.due;
 
+		// Priority
 		const priority = document.createElement('div');
 		priority.classList.add('priority');
 		priority.textContent = item.priority;
 
+		// Append elements to Card
 		card.appendChild(title);
-		card.appendChild(desc);
+		card.appendChild(descContainer);
 		card.appendChild(due);
 		card.appendChild(priority);
 
