@@ -65,7 +65,12 @@
 
 			<label for="desc">Description: <input type="text" id="desc"></label>
 
-			<label for="due">Due Date: <input type="datetime-local" id="due"></label>
+			<fieldset class="date-inp">
+				<legend>Due Date</legend>
+
+				<label for="date">Date: <input type="date" name="date" id="date"></label>
+				<label for="time">Time: <input type="time" name="time" id="time"></label>
+			</fieldset>
 
 			<label for="priority">Priority: 
 				<select name="priority" id="priority" required>
