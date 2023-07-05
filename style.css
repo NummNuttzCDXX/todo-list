@@ -144,6 +144,10 @@ button {
 	grid-row: 2 / 3;
 	justify-self: end;
 	align-self: center;
+
+	white-space: pre-line;
+	text-align: end;
+	margin-right: 5px;
 }
 
 .card .priority {
@@ -177,6 +181,13 @@ button {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+}
+
+/* Date Input Fieldset */
+#form-container .date-inp {
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
 }
 
 /* Create project inp hidden by default -- Until selected */
