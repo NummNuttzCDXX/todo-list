@@ -182,10 +182,23 @@ export const dom = (() => {
 	}
 
 	const toggleDropdown = (dropdown) => {
-		if (dropdown.lastElementChild.style.display === 'block') {
+		if (dropdown.parentElement === document.querySelector('#sidebar')) {
+			if (dropdown.lastElementChild.style.display === 'block') {
 			dropdown.lastElementChild.style.display = 'none';
-		} else {
-			dropdown.lastElementChild.style.display = 'block';
+			} else {
+				dropdown.lastElementChild.style.display = 'block';
+			}
+		} else if (dropdown.parentElement === document.querySelector('#content')) {
+			const ddChildren = Array.from(dropdown.children);
+			ddChildren.forEach(child => {
+				if (child !== document.querySelector('h6')) {
+					if (child.style.display === 'none') {
+						child.style.display = 'grid';
+					} else {
+						child.style.display = 'none';
+					}
+				}
+			})
 		}
 	}
 
