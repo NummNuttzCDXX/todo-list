@@ -1,6 +1,6 @@
 // Dom Manipulation Module
 import { Todo } from "./todo";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -50,20 +50,69 @@ export const dom = (() => {
 	const clearInputs = () => {
 		let titleInp = document.querySelector('form #title');
 		let descInp = document.querySelector('form #desc');
-		let dueInp = document.querySelector('form #due');
+		let dateInp = document.querySelector('form #date');
+		let timeInp = document.querySelector('form #time');
 		let priorityInp = document.querySelector('form #priority');
 		let createProj = document.querySelector('form #create-proj');
 
 		titleInp.value = '';
 		descInp.value = '';
-		dueInp.value = '';
+		dateInp.value = '';
+		timeInp.value = '';
 		priorityInp.value = 'default';
 		createProj.value = '';
 	}
 
-	const dateFormat = (date) => {
+	const dateFormat = (date, time) => {
+		// DATE and TIME vars set to check if user inputted time or date or both
 
-		return format(parseISO(date), 'PPpp');
+		let DATE = false,
+		TIME = false,
+		newDate = parseISO(date),
+		newTime;
+
+		// Check if date is filled out
+		if (date !== '') {
+			DATE = true
+
+			// Check if date is in the past
+			if (isPast(newDate)) {
+				alert('INVALID Date: Date is in the past');
+				return;
+
+			// Check if date is less than a week from now -- If so output will be a weekday 
+			} else if (formatDistanceToNow(newDate).slice(0,1) <= 7) {
+				newDate = format(newDate, 'EEEEEEE')
+			} else {
+				newDate = format(newDate, 'PPP')
+			}
+		}
+
+		if (time !== '') {
+			TIME = true
+			
+			// Convert to 12 hour time
+			let hour = time.slice(0,2);
+			let mins = time.slice(3);
+			let mornNight = 'am';
+			if(hour > 12) {
+				hour -= 12;
+				mornNight = 'pm';
+			} else if (hour === '00') {
+				hour = 12
+			}
+			newTime = `${hour}:${mins}${mornNight}`
+		}
+
+		if (DATE && TIME) {
+			return `${newDate} \n ${newTime}`;
+		} else if (DATE) {
+			return newDate;
+		} else if (TIME) {
+			return newTime;
+		} else {
+			throw 'ERROR: WRONG DATE FORMAT';
+		}
 	}
 
 	// This function will run when the submit button is clicked
@@ -71,7 +120,8 @@ export const dom = (() => {
 		// Get values of inputs
 		let titleInp = document.querySelector('form #title');
 		let descInp = document.querySelector('form #desc');
-		let dueInp = document.querySelector('form #due');
+		let dateInp = document.querySelector('form #date');
+		let timeInp = document.querySelector('form #time');
 		let priorityInp = document.querySelector('form #priority');
 		let project;
 
@@ -89,7 +139,7 @@ export const dom = (() => {
 		}
 
 		// Create Todo
-		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dueInp.value), priorityInp.value, project);
+		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
 
 		// Create and add Todo to Project sidebar
 		if (radioBtn.id === 'add') {
