@@ -233,5 +233,5 @@ export const dom = (() => {
 		return { addToSidebar, addTodo }
 	})()
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects }
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs }
 })()
