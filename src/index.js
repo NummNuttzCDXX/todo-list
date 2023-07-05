@@ -19,6 +19,15 @@ addBtn.addEventListener('click', () => {
 	formContainer.style.display = 'flex';
 })
 
+// Close form button
+const closeForm = document.querySelector('img.close-box');
+closeForm.addEventListener('click', () => {
+	const formContainer = document.querySelector('#form-container');
+
+	formContainer.style.display = 'none';
+	dom.clearInputs();
+})
+
 // Submit Button
 const subBtn = document.querySelector('button.submit');
 subBtn.addEventListener('click', () => {
