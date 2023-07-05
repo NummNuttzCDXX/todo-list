@@ -78,7 +78,7 @@ export const dom = (() => {
 			// Check if date is in the past
 			if (isPast(newDate)) {
 				alert('INVALID Date: Date is in the past');
-				return;
+				return false;
 
 			// Check if date is less than a week from now -- If so output will be a weekday 
 			} else if (formatDistanceToNow(newDate).slice(0,1) <= 7) {
@@ -137,6 +137,9 @@ export const dom = (() => {
 		} else {
 			console.log('ERROR adding project to ToDo');
 		}
+
+		// If date input is in the past, dateFormat will return false and thus return out of submitting the form
+		if (dateFormat(dateInp.value, timeInp.value) === false) { return }
 
 		// Create Todo
 		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
