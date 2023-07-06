@@ -144,21 +144,25 @@ export const dom = (() => {
 		// Create Todo
 		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
 
-		// Create and add Todo to Project sidebar
-		if (radioBtn.id === 'add') {
-			let dropdown = document.querySelector('#' + project)
-			projects.addTodo(dropdown, newTodo)
-		} else if (radioBtn.id === 'create') {
-			projects.addTodo(projects.addToSidebar(project), newTodo)
-		}
-
 		// Create card to hold Obj
 		let card = createCard(newTodo);
+
+		// Create and add Todo to Project sidebar
+		if (radioBtn.id === 'add') {
+			let dropdown = document.querySelector(`#sidebar #${project}`)
+			projects.addTodo(dropdown, newTodo)
+			
+			let contentDropdown = document.querySelector(`#content #${project}`)
+			contentDropdown.appendChild(card);
+		} else if (radioBtn.id === 'create') {
+			projects.addTodo(projects.addToSidebar(project), newTodo)
+			projects.addToContent(project, card);
+		}
 
 		// Clear form inputs
 		clearInputs()
 		
-		return { newTodo, card }
+		return { newTodo }
 	}
 
 	const checkRequired = () => {
@@ -182,16 +186,21 @@ export const dom = (() => {
 	}
 
 	const toggleDropdown = (dropdown) => {
+		// Check if dropdown is in sidebar
 		if (dropdown.parentElement === document.querySelector('#sidebar')) {
+			// Toggle dropdown
 			if (dropdown.lastElementChild.style.display === 'block') {
 			dropdown.lastElementChild.style.display = 'none';
 			} else {
 				dropdown.lastElementChild.style.display = 'block';
 			}
+		// Check if dropdown is in content
 		} else if (dropdown.parentElement === document.querySelector('#content')) {
-			const ddChildren = Array.from(dropdown.children);
+			const ddChildren = Array.from(dropdown.children)
+
 			ddChildren.forEach(child => {
-				if (child !== document.querySelector('h6')) {
+				// Show/hide each child element except for heading
+				if (child !== ddChildren[0]) {
 					if (child.style.display === 'none') {
 						child.style.display = 'grid';
 					} else {
@@ -234,7 +243,7 @@ export const dom = (() => {
 			return dropdown;
 		}
 
-		// Add ToDo to a project on the DOM
+		// Add ToDo to a project in the sidebar
 		const addTodo = (projectDropdown, todo) => {
 			const ul = projectDropdown.lastElementChild.lastElementChild;
 			const li = document.createElement('li');
@@ -243,7 +252,29 @@ export const dom = (() => {
 			ul.appendChild(li);
 		}
 
-		return { addToSidebar, addTodo }
+		// Add dropdown to content
+		const addToContent = (name, card) => {
+			// Create dropdown -- class and id
+			const dropdown = document.createElement('div');
+			dropdown.classList.add('dropdown');
+			dropdown.id = name;
+
+			// Create heading
+			const head = document.createElement('h6');
+			head.textContent = name;
+
+			// Add elements to dropdown
+			dropdown.appendChild(head);
+			dropdown.appendChild(card);
+
+			// Add listener to new dropdown
+			dropdown.addEventListener('click', toggleDropdown(dropdown));
+
+			// Add dropdown to content
+			content.appendChild(dropdown);
+		}
+
+		return { addToSidebar, addTodo, addToContent }
 	})()
 
 	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs }

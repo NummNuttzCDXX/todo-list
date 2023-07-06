@@ -43,8 +43,6 @@ subBtn.addEventListener('click', () => {
 
 	toDos.push(item.newTodo);
 
-	dom.content.appendChild(item.card);
-
 	// Toggle Form Off
 	const formContainer = document.querySelector('#form-container');
 	formContainer.style.display = 'none';
