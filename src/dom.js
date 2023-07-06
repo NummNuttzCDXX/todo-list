@@ -1,6 +1,6 @@
 // Dom Manipulation Module
 import { Todo } from "./todo";
-import { format, parseISO, formatDistanceToNow, isPast, formatISO } from "date-fns";
+import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -143,7 +143,6 @@ export const dom = (() => {
 
 		// Create Todo
 		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
-		console.log(newTodo)
 
 		// Create card to hold Obj
 		let card = createCard(newTodo);
