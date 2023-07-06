@@ -291,12 +291,12 @@ export const dom = (() => {
 
 		// Check if ToDo date is upcoming
 		const checkUpcoming = (date) => {
+			if (date === '') { return false; }
 			let newDate = parseISO(date);
 			let distance = formatDistanceToNow(newDate);
 
-			console.log(distance)
 			// if date is less than a week
-			if (distance.slice(0,1) <= 7) {
+			if (distance.slice(0,2) <= 7) {
 				return true;
 			} else if (distance.includes('hour')){
 				return true;
