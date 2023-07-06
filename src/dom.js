@@ -1,6 +1,6 @@
 // Dom Manipulation Module
 import { Todo } from "./todo";
-import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
+import { format, parseISO, formatDistanceToNow, isPast, formatISO } from "date-fns";
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -143,21 +143,36 @@ export const dom = (() => {
 
 		// Create Todo
 		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
+		console.log(newTodo)
 
 		// Create card to hold Obj
 		let card = createCard(newTodo);
 
-		// Create and add Todo to Project sidebar
+		// Create and add Todo to Project sidebar and Content Project
 		if (radioBtn.id === 'add') {
 			let dropdown = document.querySelector(`#sidebar #${project}`)
 			projects.addTodo(dropdown, newTodo)
 			
+			// Check if due date is upcoming or not
+			// If so add project to upcoming group instead of Project group
+			if (projects.checkUpcoming(dateInp.value)) {
+				const upcomingDrop = document.querySelector('#content #upcoming');
+
+				upcomingDrop.appendChild(card);
+			} else {
 			let contentDropdown = document.querySelector(`#content #${project}`)
 			contentDropdown.appendChild(card);
 			contentDropdown.classList.remove('hide');
+			}
 		} else if (radioBtn.id === 'create') {
-			projects.addTodo(projects.addToSidebar(project), newTodo)
-			projects.addToContent(project, card);
+			if (projects.checkUpcoming(dateInp.value)) {
+				const upcomingDrop = document.querySelector('#content #upcoming');
+
+				upcomingDrop.appendChild(card);
+			} else {
+				projects.addTodo(projects.addToSidebar(project), newTodo)
+				projects.addToContent(project, card);
+			}
 		}
 
 		// Clear form inputs
@@ -275,7 +290,25 @@ export const dom = (() => {
 			content.appendChild(dropdown);
 		}
 
-		return { addToSidebar, addTodo, addToContent }
+		// Check if ToDo date is upcoming
+		const checkUpcoming = (date) => {
+			let newDate = parseISO(date);
+			let distance = formatDistanceToNow(newDate);
+
+			console.log(distance)
+			// if date is less than a week
+			if (distance.slice(0,1) <= 7) {
+				return true;
+			} else if (distance.includes('hour')){
+				return true;
+			} else if (distance.includes('minute')) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		return { addToSidebar, addTodo, addToContent, checkUpcoming }
 	})()
 
 	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs }
