@@ -99,11 +99,16 @@ button {
 	margin-bottom: 10px;
 }
 
+#content #upcoming h6 {
+	margin-top: 5px;
+}
+
 /* To Do Cards */
 .card {
 	width: auto;
 	height: 75px;
 	padding: 5px;
+	margin: 5px 0px;
 
 	background-color: var(--color-surface-mixed-200);
 	border-radius: 12px;
@@ -170,6 +175,26 @@ button {
 	grid-row: 1 / 2;
 	justify-self: end;
 	align-self: start;
+	
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	font-size: .8em;
+	color: var(--color-text-mixed-600);
+}
+
+/* Edit Icon */
+.card .priority img {
+	width: 1.2em;
+	padding: 3px;
+	border-radius: 20px;
+	/* This will change the color of svg's through a filter if the starting color is black */
+	filter: invert(56%) sepia(52%) saturate(1616%) hue-rotate(215deg) brightness(100%) contrast(97%);
+}
+
+.card .priority img:hover {
+	cursor: pointer;
 }
 
 #form-container {
