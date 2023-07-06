@@ -145,7 +145,10 @@ export const dom = (() => {
 		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
 
 		// Create card to hold Obj
-		let card = createCard(newTodo);
+		const card = createCard(newTodo);
+
+		// Add Priority Class to Card
+		card.classList.add(priorityInp.value)
 
 		// Create and add Todo to Project sidebar and Content Project
 		if (radioBtn.id === 'add') {
