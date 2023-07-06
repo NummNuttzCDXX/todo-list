@@ -154,6 +154,7 @@ export const dom = (() => {
 			
 			let contentDropdown = document.querySelector(`#content #${project}`)
 			contentDropdown.appendChild(card);
+			contentDropdown.classList.remove('hide');
 		} else if (radioBtn.id === 'create') {
 			projects.addTodo(projects.addToSidebar(project), newTodo)
 			projects.addToContent(project, card);
