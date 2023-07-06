@@ -90,10 +90,13 @@ button {
 	width: 100%;
 	height: auto;
 
-	display: grid;
-	grid-template-rows: repeat(4, 1fr);
-	/* Name rows */
-	grid-template-areas: 'upcoming' 'high' 'medium' 'low';
+	display: flex;
+	flex-direction: column;
+}
+
+/* Content Dropdown Heading */
+.dropdown h6 {
+	margin-bottom: 10px;
 }
 
 /* To Do Cards */
