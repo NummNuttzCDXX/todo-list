@@ -106,7 +106,7 @@ button {
 /* To Do Cards */
 .card {
 	width: auto;
-	height: 75px;
+	height: auto;
 	padding: 5px;
 	margin: 5px 0px;
 
@@ -116,6 +116,11 @@ button {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-template-rows: 1fr 1fr;
+}
+
+.card.collapse {
+	display: flex;
+	justify-content: space-between;
 }
 
 .high {
