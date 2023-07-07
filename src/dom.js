@@ -47,6 +47,22 @@ export const dom = (() => {
 		return card;
 	}
 
+	const toggleCardDrop = (card) => {
+		const children = card.children;
+		const desc = children[1];
+		const priority = children[3];
+
+		if (card.classList.contains('collapse')) {
+			card.classList.remove('collapse');
+			priority.style.display = 'flex';
+			desc.style.display = 'flex';
+		} else {
+			card.classList.add('collapse');
+			priority.style.display = 'none';
+			desc.style.display = 'none';
+		}
+	}
+
 	const clearInputs = () => {
 		let titleInp = document.querySelector('form #title');
 		let descInp = document.querySelector('form #desc');
@@ -212,13 +228,14 @@ export const dom = (() => {
 			} else {
 				dropdown.lastElementChild.style.display = 'block';
 			}
-		// Check if dropdown is in content
-		} else if (dropdown.parentElement === document.querySelector('#content')) {
-			const ddChildren = Array.from(dropdown.children)
+		// Else dropdown is in content
+		} else {
+			// Get an Array of the dropdown parent's children
+			const children = Array.from(dropdown.parentElement.children);
 
-			ddChildren.forEach(child => {
+			children.forEach(child => {
 				// Show/hide each child element except for heading
-				if (child !== ddChildren[0]) {
+				if (child !== children[0]) {
 					if (child.style.display === 'none') {
 						child.style.display = 'grid';
 					} else {
@@ -313,5 +330,5 @@ export const dom = (() => {
 		return { addToSidebar, addTodo, addToContent, checkUpcoming }
 	})()
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs }
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop }
 })()

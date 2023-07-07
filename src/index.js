@@ -5,11 +5,19 @@ import { dom } from "./dom";
 // Declare array to hold ToDo Obj
 let toDos = [];
 // Get dropdowns
-let dropdowns = document.querySelectorAll('.dropdown');
+let dropdowns = document.querySelectorAll('#sidebar .dropdown');
 
 // Sidebar Project Dropdown
 // Add listeners to dropdowns to toggle dropdown on click
 dropdowns.forEach(project => project.addEventListener('click', () => dom.toggleDropdown(project)));
+
+// Add dropdown listener to cards
+let cards = document.querySelectorAll('.card');
+cards.forEach(card => card.addEventListener('click', () => dom.toggleCardDrop(card)));
+
+// Content Project Dropdown
+let contentDropdown = document.querySelectorAll('#content .dropdown h6');
+contentDropdown.forEach(dropdown => dropdown.addEventListener('click', () => dom.toggleDropdown(dropdown)));
 
 // New ToDo Button
 const addBtn = document.querySelector('button.add-new');
