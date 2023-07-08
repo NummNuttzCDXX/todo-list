@@ -2,6 +2,7 @@
 import { Todo } from "./todo";
 import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
 import editIcon from './img/pencil.svg';
+import dropArrow from './img/expand_more_dropdown.svg';
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -240,6 +241,9 @@ export const dom = (() => {
 			} else {
 				dropdown.lastElementChild.style.display = 'block';
 			}
+			// Toggle Dropdown Arrow flip
+			toggleArrowFlip(dropdown.firstElementChild.lastElementChild)
+
 		// Else dropdown is in content
 		} else {
 			// Get an Array of the dropdown parent's children
@@ -259,7 +263,18 @@ export const dom = (() => {
 					}
 				}
 			})
+			// Toggle dropdown arrow flip
+			toggleArrowFlip(dropdown.children[0])
 		}
+
+		// Toggle arrow flip nested function
+		function toggleArrowFlip(arrow) {
+			if (arrow.classList.contains('flip')) {
+				arrow.classList.remove('flip');
+			} else if (!arrow.classList.contains('flip')) {
+				arrow.classList.add('flip');
+			};
+		};
 	}
 
 	// Project Module -- For organisation
@@ -275,7 +290,13 @@ export const dom = (() => {
 
 			const project = document.createElement('p');
 			project.textContent = name;
-			dropdown.appendChild(project);
+			// Add dropdown arrow to P
+			const arrow = new Image();
+			arrow.src = dropArrow;
+			arrow.alt = 'Dropdown Arrow';
+			arrow.classList.add('dropdown-arrow')
+			project.appendChild(arrow);
+			dropdown.appendChild(project)
 
 			// Create and add the dropdown-content
 			const dropContent = document.createElement('div');
@@ -313,13 +334,19 @@ export const dom = (() => {
 			// Create heading
 			const head = document.createElement('h6');
 			head.textContent = name;
+			// Add dropdown arrow to head
+			const arrow = new Image();
+			arrow.src = dropArrow;
+			arrow.alt = 'Dropdown Arrow';
+			arrow.classList.add('dropdown-arrow')
+			head.appendChild(arrow);
 
 			// Add elements to dropdown
 			dropdown.appendChild(head);
 			dropdown.appendChild(card);
 
 			// Add listener to new dropdown
-			dropdown.addEventListener('click', toggleDropdown(dropdown));
+			head.addEventListener('click', () => toggleDropdown(head));
 
 			// Add dropdown to content
 			content.appendChild(dropdown);
