@@ -1,6 +1,7 @@
 // Dom Manipulation Module
 import { Todo } from "./todo";
 import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
+import editIcon from './img/pencil.svg';
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -37,12 +38,21 @@ export const dom = (() => {
 		const priority = document.createElement('div');
 		priority.classList.add('priority');
 		priority.textContent = item.priority;
+		
+		// Priority Icon
+		const edit = new Image();
+		edit.src = editIcon;
+		edit.alt = 'Pencil Icon(Edit)';
+		priority.appendChild(edit);
 
 		// Append elements to Card
 		card.appendChild(title);
 		card.appendChild(descContainer);
 		card.appendChild(due);
 		card.appendChild(priority);
+
+		// Add collapse listener
+		card.addEventListener('click', () => toggleCardDrop(card))
 
 		return card;
 	}
@@ -54,10 +64,12 @@ export const dom = (() => {
 
 		if (card.classList.contains('collapse')) {
 			card.classList.remove('collapse');
+			card.style.display = 'grid';
 			priority.style.display = 'flex';
 			desc.style.display = 'flex';
 		} else {
 			card.classList.add('collapse');
+			card.style.display = 'flex';
 			priority.style.display = 'none';
 			desc.style.display = 'none';
 		}
@@ -237,7 +249,11 @@ export const dom = (() => {
 				// Show/hide each child element except for heading
 				if (child !== children[0]) {
 					if (child.style.display === 'none') {
-						child.style.display = 'grid';
+						if (child.classList.contains('collapse')) {
+							child.style.display = 'flex';
+						} else {
+							child.style.display = 'grid';
+						}
 					} else {
 						child.style.display = 'none';
 					}
