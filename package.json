@@ -9,6 +9,7 @@
   "author": "NummNuttzCDXX",
   "license": "ISC",
   "devDependencies": {
+    "url-loader": "^4.1.1",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   },
