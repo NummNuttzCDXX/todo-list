@@ -70,6 +70,12 @@ button {
 	border-radius: 12px;
 }
 
+#sidebar p {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
 .dropdown {
 	margin-left: 5px;
 }
@@ -97,6 +103,24 @@ button {
 /* Content Dropdown Heading */
 .dropdown h6 {
 	margin-bottom: 10px;
+
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+/* Content Dropdown Icon */
+.dropdown-arrow {
+	width: 25px;
+	margin-left: 5px;
+	
+	transition: .5s;
+}
+
+/* Added to dropdown icons to flip them upside down */
+.flip {
+	transform: rotate(180deg);
+	transition: .5s;
 }
 
 #content #upcoming h6 {
@@ -194,11 +218,18 @@ button {
 	width: 1.2em;
 	padding: 3px;
 	border-radius: 20px;
+}
+
+/* Color Icons */
+.card .priority img,
+.dropdown-arrow {
 	/* This will change the color of svg's through a filter if the starting color is black */
 	filter: invert(56%) sepia(52%) saturate(1616%) hue-rotate(215deg) brightness(100%) contrast(97%);
 }
 
-.card .priority img:hover {
+.card .priority img:hover,
+.dropdown p,
+.dropdown h6 {
 	cursor: pointer;
 }
 
