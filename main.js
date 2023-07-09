@@ -566,7 +566,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _dom
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Todo: () => (/* binding */ Todo)\n/* harmony export */ });\n// ToDo Module\r\n\r\n// ToDo Object Constructor -- Factory\r\nconst Todo = (title, desc, due, priority, project) => {\r\n\tlet completed = false;\r\n\r\n\tconst edit = () => {\r\n\t\t\r\n\t}\r\n\r\n\tconst setPriority = (newPriority) => {\r\n\t\tpriority = newPriority;\r\n\t\treturn newPriority;\r\n\t}\r\n\r\n\tconst setTitle = (name) => {\r\n\t\ttitle = name;\r\n\t\treturn name;\r\n\t}\r\n\r\n\tconst setDesc = (newDesc) => {\r\n\t\tdesc = newDesc;\r\n\t\treturn newDesc;\r\n\t}\r\n\r\n\treturn {title, desc, due, priority, setPriority, project, completed}\r\n}\r\n\n\n//# sourceURL=webpack://todo-list/./src/todo.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Todo: () => (/* binding */ Todo)\n/* harmony export */ });\n// ToDo Module\r\n\r\n// ToDo Object Constructor -- Factory\r\nconst Todo = (title, desc, due, priority, project) => {\r\n\tlet completed = false;\r\n\r\n\treturn {title, desc, due, priority, setPriority, project, completed}\r\n}\r\n\n\n//# sourceURL=webpack://todo-list/./src/todo.js?");
 
 /***/ }),
 
