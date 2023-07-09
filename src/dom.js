@@ -77,19 +77,40 @@ export const dom = (() => {
 	}
 
 	const clearInputs = () => {
+		// 'Add' inputs
 		let titleInp = document.querySelector('form #title');
 		let descInp = document.querySelector('form #desc');
 		let dateInp = document.querySelector('form #date');
 		let timeInp = document.querySelector('form #time');
 		let priorityInp = document.querySelector('form #priority');
 		let createProj = document.querySelector('form #create-proj');
+		let addRadio = document.querySelector('#new #add');
+		// 'Edit' inputs
+		const title = document.querySelector('#edit #new-title');
+		const desc = document.querySelector('#edit #new-desc');
+		const date = document.querySelector('#edit #new-date');
+		const time = document.querySelector('#edit #new-time');
+		const priority = document.querySelector('#edit #new-priority');
+		const editCreateProj = document.querySelector('#edit #edit-create-proj');
+		const editAddRadio = document.querySelector('#edit #edit-add');
 
+		// 'Add' inputs
 		titleInp.value = '';
 		descInp.value = '';
 		dateInp.value = '';
 		timeInp.value = '';
 		priorityInp.value = 'default';
 		createProj.value = '';
+		addRadio.checked = true;
+
+		// 'Edit' inputs
+		title.value = '';
+		desc.value = '';
+		date.value = '';
+		time.value = '';
+		priority.value = 'default';
+		editCreateProj.value = '';
+		editAddRadio.checked = true;
 	}
 
 	const dateFormat = (date, time) => {
@@ -155,7 +176,7 @@ export const dom = (() => {
 		let project;
 
 		// Check radio btns
-		const radioBtn = document.querySelector('#form-container input[type="radio"]:checked');
+		const radioBtn = document.querySelector('#new input[type="radio"]:checked');
 		if (radioBtn.id === 'add') {
 			project = document.querySelector('form #add-proj').value
 
@@ -191,9 +212,9 @@ export const dom = (() => {
 
 				upcomingDrop.appendChild(card);
 			} else {
-			let contentDropdown = document.querySelector(`#content #${project}`)
-			contentDropdown.appendChild(card);
-			contentDropdown.classList.remove('hide');
+				let contentDropdown = document.querySelector(`#content #${project}`)
+				contentDropdown.appendChild(card);
+				contentDropdown.classList.remove('hide');
 			}
 		} else if (radioBtn.id === 'create') {
 			if (projects.checkUpcoming(dateInp.value)) {
@@ -209,7 +230,7 @@ export const dom = (() => {
 		// Clear form inputs
 		clearInputs()
 		
-		return { newTodo }
+		return { newTodo, card }
 	}
 
 	const checkRequired = () => {
@@ -275,6 +296,86 @@ export const dom = (() => {
 				arrow.classList.add('flip');
 			};
 		};
+	}
+
+	const showForm = (form) => {
+		const formContainer = document.querySelector('#form-container');
+		const formAdd = document.querySelector('form#new');
+		const formEdit = document.querySelector('form#edit');
+
+		formContainer.style.display = 'flex';
+
+		if (form === formAdd) {
+			formAdd.classList.remove('hide');
+			formEdit.classList.add('hide');
+		} else if (form === formEdit) {
+			formAdd.classList.add('hide');
+			formEdit.classList.remove('hide');
+		} else {
+			alert('ERROR: showForm()');
+		}
+	}
+
+	const subEdit = (card, todo) => {
+		const title = document.querySelector('#edit #new-title');
+		const desc = document.querySelector('#edit #new-desc');
+		const date = document.querySelector('#edit #new-date');
+		const time = document.querySelector('#edit #new-time');
+		const priority = document.querySelector('#edit #new-priority');
+		let project;
+		
+		// Check Project radio buttons
+		const radio = document.querySelector('#edit input[type="radio"]:checked');
+		if (radio.id === 'edit-add') {
+			project = document.querySelector('#edit #edit-proj').value
+
+			if (project === 'default') project = priority.value;
+		} else if (radio.id === 'edit-create') {
+			project = document.querySelector('#edit #edit-create-proj').value;
+		} else { alert('ERROR: Editting Project Failed') }; // ERROR catch
+
+		// Set new values to todo object
+		todo.title = title.value;
+		todo.desc = desc.value;
+		todo.due = dateFormat(date.value, time.value);
+		todo.priority = priority.value;
+		todo.project = project;
+
+		// Remove old card and Create new one
+		const index = card.getAttribute('data'); // Get index of card
+		const newCard = createCard(todo);
+		newCard.classList.add(priority.value)
+		newCard.setAttribute('data', index);
+		card.remove()
+
+		// Create and add Todo to Project sidebar and Content Project
+		if (radio.id === 'edit-add') {
+			let dropdown = document.querySelector(`#sidebar #${project}`)
+			projects.addTodo(dropdown, todo)
+			
+			// Check if due date is upcoming or not
+			// If so add project to upcoming group instead of Project group
+			if (projects.checkUpcoming(date.value)) {
+				const upcomingDrop = document.querySelector('#content #upcoming');
+
+				upcomingDrop.appendChild(newCard);
+			} else {
+				let contentDropdown = document.querySelector(`#content #${project}`)
+				contentDropdown.appendChild(newCard);
+				contentDropdown.classList.remove('hide');
+			}
+		} else if (radio.id === 'edit-create') {
+			if (projects.checkUpcoming(date.value)) {
+				const upcomingDrop = document.querySelector('#content #upcoming');
+
+				upcomingDrop.appendChild(newCard);
+			} else {
+				projects.addTodo(projects.addToSidebar(project), todo)
+				projects.addToContent(project, newCard);
+			}
+		}
+
+		return { card: newCard }
 	}
 
 	// Project Module -- For organisation
@@ -373,5 +474,5 @@ export const dom = (() => {
 		return { addToSidebar, addTodo, addToContent, checkUpcoming }
 	})()
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop }
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit }
 })()
