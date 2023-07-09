@@ -57,7 +57,7 @@
 		<div id="content">
 			<div id="upcoming" class="dropdown">
 				<h6>Upcoming <img class="dropdown-arrow" src="../src/img/expand_more_dropdown.svg" alt="Dropdown Arrow"></h6>
-				<div class="card medium">
+				<div class="card medium" data="0">
 					<div class="title">Feed the cat</div>
 					<div class="desc">
 						<h5 class="head">Description:</h5>
@@ -83,9 +83,10 @@
 	</div>
 
 	<div id="form-container">
-		<form action="">
+		<img class="close-box" src="../src/img/close-box.svg" alt="Close Box">
+
+		<form id="new" action="">
 			<legend>Add To Do</legend>
-			<img class="close-box" src="../src/img/close-box.svg" alt="Close Box">
 
 			<label for="title">Title: <input type="text" id="title" required></label>
 
@@ -121,9 +122,50 @@
 				<label for="create-proj" class="hide">New project name: <input type="text" id="create-proj"></label>
 			</fieldset>
 
-			
-
 			<button type="button" class="submit">Add</button>
+		</form>
+
+		<form id="edit" class="hide" action="">
+			<fieldset>
+				<legend>Edit Todo</legend>
+
+				<label for="new-title">Title: <input type="text" id="new-title"></label>
+
+				<label for="new-desc">Description: <input type="text" id="new-desc"></label>
+				
+				<fieldset>
+					<legend>New Date</legend>
+
+					<label for="new-date">Date: <input type="date" name="new-date" id="new-date"></label>
+
+					<label for="new-time">Time: <input type="time" name="new-time" id="new-time"></label>
+				</fieldset>
+
+				<label for="new-priority">
+					<select name="new-priority" id="new-priority">
+						<option value="default">-- Select Priority --</option>
+						<option value="low">Low</option>
+						<option value="medium">Medium</option>
+						<option value="high">High</option>
+					</select>
+				</label>
+
+				<fieldset>
+					<legend>Add Project or Create a New One</legend>
+
+					<label for="edit-add"><input type="radio" name="edit-project" id="edit-add" checked>Add project</label>
+					<label for="edit-create"><input type="radio" name="edit-project" id="edit-create">Create new project</label>
+
+					<label for="edit-proj">Add Project:
+						<select name="edit-proj" id="edit-proj">
+							<option value="default">-- Add Project --</option>
+						</select>
+					</label>
+					<label for="edit-create-proj" class="hide">New project name: <input type="text" id="edit-create-proj"></label>
+				</fieldset>
+
+				<button type="button">Edit</button>
+			</fieldset>
 		</form>
 	</div>
 
