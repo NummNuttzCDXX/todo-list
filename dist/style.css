@@ -76,6 +76,17 @@ button {
 	justify-content: flex-start;
 }
 
+/* Delete Project btn */
+.proj-del {
+	margin-left: auto;
+
+	visibility: hidden;
+}
+
+#sidebar .dropdown:hover .proj-del {
+	visibility: visible;
+}
+
 .dropdown {
 	margin-left: 5px;
 }
