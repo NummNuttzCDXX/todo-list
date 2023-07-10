@@ -254,9 +254,9 @@ export const dom = (() => {
 
 				upcomingDrop.appendChild(card);
 			} else {
-				projects.addTodo(projects.addToSidebar(project), newTodo)
 				projects.addToContent(project, card);
 			}
+			projects.addTodo(projects.addToSidebar(project), newTodo)
 		}
 
 		// Clear form inputs
@@ -416,6 +416,8 @@ export const dom = (() => {
 			}
 		}
 
+		clearInputs()
+
 		return { card: newCard }
 	}
 
@@ -447,7 +449,7 @@ export const dom = (() => {
 			del.addEventListener('click', () => {
 				// First, Toggle dropdown so it doesnt try to drop elements that arent there anymore
 				toggleDropdown(del.parentElement.parentElement);
-				removeFromSidebar(del); // Then, run main func
+				removeProject(del); // Then, run main func
 			});
 			project.appendChild(del);
 
@@ -465,11 +467,13 @@ export const dom = (() => {
 			// Add dropdown to sidebar
 			sidebar.appendChild(dropdown);
 
+			addToSelect(name)
+
 			return dropdown;
 		}
 
-		// Remove project from sidebar
-		const removeFromSidebar = (btn) => {
+		// Remove project from sidebar and content
+		const removeProject = (btn) => {
 			const project = btn.parentElement.parentElement;
 			
 			// Get cards inside that project
@@ -498,6 +502,9 @@ export const dom = (() => {
 
 			// Delete project from sidebar
 			project.remove()
+
+			// Remove project option from select box
+			removeFromSelect(project.id.toLowerCase());
 		}
 
 		// Add ToDo to a project in the sidebar
@@ -550,6 +557,31 @@ export const dom = (() => {
 			content.appendChild(dropdown);
 		}
 
+		const addToSelect = (name) => {
+			const selectBoxs = document.querySelectorAll('form select');
+
+			selectBoxs.forEach(box => {
+				const opt = document.createElement('option');
+				const nameLower = name.toLowerCase();
+
+				opt.setAttribute('value', nameLower);
+				opt.textContent = name;
+
+				box.appendChild(opt);
+			})
+		}
+
+		const removeFromSelect = (name) => {
+			const selectBoxs = document.querySelectorAll('form select');
+
+			selectBoxs.forEach(box => {
+				const children = Array.from(box.children);
+				children.forEach(child => {
+					if (child.value === name.toLowerCase()) child.remove();
+				})
+			})
+		}
+
 		// Check if ToDo date is upcoming
 		const checkUpcoming = (date) => {
 			if (date === '') { return false; }
@@ -568,7 +600,7 @@ export const dom = (() => {
 			}
 		}
 
-		return { addToSidebar, addTodo, addToContent, checkUpcoming, removeTodoSide, removeFromSidebar }
+		return { addToSidebar, addTodo, addToContent, checkUpcoming, removeTodoSide, removeProject }
 	})()
 
 	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard }
