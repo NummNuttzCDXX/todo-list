@@ -354,6 +354,9 @@ export const dom = (() => {
 		const time = document.querySelector('#edit #new-time');
 		const priority = document.querySelector('#edit #new-priority');
 		let project;
+
+		// Remove old todo from Project sidebar
+		projects.removeTodoSide(todo, todo.project)
 		
 		// Check Project radio buttons
 		const radio = document.querySelector('#edit input[type="radio"]:checked');
@@ -456,6 +459,19 @@ export const dom = (() => {
 			ul.appendChild(li);
 		}
 
+		const removeTodoSide = (todo, projName) => {
+			// Get Project dropdown
+			const project = document.querySelector(`#sidebar #${projName}`);
+			// Get list elements -- Todo's
+			const children = Array.from(project.lastElementChild.firstElementChild.children);
+
+			children.forEach(child => {
+				if (child.textContent === todo.title) {
+					child.remove()
+				}
+			})
+		}
+
 		// Add dropdown to content
 		const addToContent = (name, card) => {
 			// Create dropdown -- class and id
@@ -502,7 +518,7 @@ export const dom = (() => {
 			}
 		}
 
-		return { addToSidebar, addTodo, addToContent, checkUpcoming }
+		return { addToSidebar, addTodo, addToContent, checkUpcoming, removeTodoSide }
 	})()
 
 	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard }
