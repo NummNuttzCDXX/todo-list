@@ -6,7 +6,7 @@ import { Todo } from "./todo"; //TEMP
 // Declare array to hold ToDo Obj
 // With Example 
 let exampleTodo = Todo('Feed the cat', 'Food and Water', 'Everyday', 'medium', 'medium'); //TEMP
-let toDos = [ exampleTodo ];
+export let toDos = [ exampleTodo ];
 // Get dropdowns
 let dropdowns = document.querySelectorAll('#sidebar .dropdown');
 
@@ -77,16 +77,7 @@ radioBtns.forEach(btn => btn.addEventListener('change', () => {
 // Edit Todo listener
 let editBtn = document.querySelectorAll('.card .priority img');
 let editCard;
-editBtn.forEach(btn => btn.addEventListener('click', () => {
-	// Toggle card drop
-	dom.toggleCardDrop(btn.parentElement.parentElement)
-
-	// Show edit form/Hide add form
-	dom.showForm(document.querySelector('form#edit'));
-
-	// Save editted card for later use
-	editCard = btn.parentElement.parentElement;
-}))
+editBtn.forEach(btn => btn.addEventListener('click', () => { dom.editCard(btn) }))
 
 // Edit Add/Create Project Listener
 const editRadio = document.querySelectorAll('#edit input[type="radio"]');
@@ -104,13 +95,3 @@ editRadio.forEach(btn => btn.addEventListener('change', () => {
 		createProj.classList.remove('hide');
 	}
 }))
-
-// Edit Submit Button
-const editSubBtn = document.querySelector('#edit button');
-editSubBtn.addEventListener('click', () => {
-	let editTodo = toDos[editCard.getAttribute('data')];
-	let items = dom.subEdit(editCard, editTodo);
-
-	// hide form
-	document.querySelector('#form-container').style.display = 'none';
-})
