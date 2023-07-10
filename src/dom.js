@@ -3,6 +3,7 @@ import { Todo } from "./todo";
 import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
 import editIcon from './img/pencil.svg';
 import dropArrow from './img/expand_more_dropdown.svg';
+import { toDos } from "./index";
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -45,6 +46,8 @@ export const dom = (() => {
 		edit.src = editIcon;
 		edit.alt = 'Pencil Icon(Edit)';
 		priority.appendChild(edit);
+		// Edit Btn Listener
+		edit.addEventListener('click', () => { editCard(edit) })
 
 		// Append elements to Card
 		card.appendChild(title);
@@ -56,6 +59,34 @@ export const dom = (() => {
 		card.addEventListener('click', () => toggleCardDrop(card))
 
 		return card;
+	}
+
+	// This function gets run on Edit Icon Click
+	const editCard = (editBtn) => {
+		// Toggle card drop
+		toggleCardDrop(editBtn.parentElement.parentElement)
+
+		// Show edit form/Hide add form
+		showForm(document.querySelector('form#edit'));
+
+		// Save editted card for later use
+		let editCard = editBtn.parentElement.parentElement;
+
+		// Edit Form Submit Button
+		const editSubBtn = document.querySelector('#edit button');
+		editSubBtn.addEventListener('click', editTodo)
+
+		// Nested Function: Gets run on Edit Form Submit Btn
+		function editTodo() {
+			let todoEdit = toDos[editCard.getAttribute('data')];
+			let items = subEdit(editCard, todoEdit);
+
+			// hide form
+			document.querySelector('#form-container').style.display = 'none';
+
+			// Remove listener
+			editSubBtn.removeEventListener('click', editTodo)
+		}
 	}
 
 	const toggleCardDrop = (card) => {
@@ -474,5 +505,5 @@ export const dom = (() => {
 		return { addToSidebar, addTodo, addToContent, checkUpcoming }
 	})()
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit }
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard }
 })()
