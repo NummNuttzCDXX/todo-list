@@ -4,6 +4,7 @@ import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
 import editIcon from './img/pencil.svg';
 import dropArrow from './img/expand_more_dropdown.svg';
 import { toDos } from "./index";
+import closeX from './img/close-X.svg';
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -294,13 +295,19 @@ export const dom = (() => {
 				dropdown.lastElementChild.style.display = 'block';
 			}
 			// Toggle Dropdown Arrow flip
-			toggleArrowFlip(dropdown.firstElementChild.lastElementChild)
+			toggleArrowFlip(dropdown.firstElementChild.firstElementChild)
 
 		// Else dropdown is in content
 		} else {
+			try {
+				// Catch possible error when deleting newly created groups
+				const children = Array.from(dropdown.parentElement.children);
+			} catch (TypeError) {
+				throw 'Cannot dropdown Project that isnt there lol dummy \n Nothing is wrong... Carry on'
+			}
+
 			// Get an Array of the dropdown parent's children
 			const children = Array.from(dropdown.parentElement.children);
-
 			children.forEach(child => {
 				// Show/hide each child element except for heading
 				if (child !== children[0]) {
@@ -432,6 +439,17 @@ export const dom = (() => {
 			arrow.classList.add('dropdown-arrow')
 			project.appendChild(arrow);
 			dropdown.appendChild(project)
+			// Add Delete btn to P
+			const del = new Image();
+			del.src = closeX;
+			del.alt = 'Delete Project';
+			del.classList.add('proj-del');
+			del.addEventListener('click', () => {
+				// First, Toggle dropdown so it doesnt try to drop elements that arent there anymore
+				toggleDropdown(del.parentElement.parentElement);
+				removeFromSidebar(del); // Then, run main func
+			});
+			project.appendChild(del);
 
 			// Create and add the dropdown-content
 			const dropContent = document.createElement('div');
@@ -448,6 +466,38 @@ export const dom = (() => {
 			sidebar.appendChild(dropdown);
 
 			return dropdown;
+		}
+
+		// Remove project from sidebar
+		const removeFromSidebar = (btn) => {
+			const project = btn.parentElement.parentElement;
+			
+			// Get cards inside that project
+			const cards = Array.from(document.querySelector(`#content #${project.id}`).children);
+			// Loop through cards to get the todos and move them to a Priority Project
+			// So the Todo's aren't deleted
+			let todo;
+			cards.forEach(card => {
+				// Do nothing for the h6 in the div
+				if(card.classList.contains('card')) {
+					const index = card.getAttribute('data');
+					todo = toDos[index];
+
+					// Add card to #content Project Priority
+					const contentPriority = document.querySelector(`#content #${todo.priority}`)
+					contentPriority.appendChild(card);
+					contentPriority.classList.remove('hide');
+				}
+			})
+
+			// Add todo to Priority Project on sidebar
+			addTodo(document.querySelector(`#sidebar #${todo.priority}`), todo);
+
+			// Delete Project from content
+			document.querySelector(`#content #${project.id}`).remove();
+
+			// Delete project from sidebar
+			project.remove()
 		}
 
 		// Add ToDo to a project in the sidebar
@@ -518,7 +568,7 @@ export const dom = (() => {
 			}
 		}
 
-		return { addToSidebar, addTodo, addToContent, checkUpcoming, removeTodoSide }
+		return { addToSidebar, addTodo, addToContent, checkUpcoming, removeTodoSide, removeFromSidebar }
 	})()
 
 	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard }

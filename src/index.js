@@ -18,6 +18,14 @@ dropdowns.forEach(project => project.addEventListener('click', () => dom.toggleD
 let cards = document.querySelectorAll('.card');
 cards.forEach(card => card.addEventListener('click', () => dom.toggleCardDrop(card)));
 
+// Add Dropdown Project Delete listener
+let projDel = document.querySelectorAll('.proj-del');
+projDel.forEach(btn => btn.addEventListener('click', () => {
+	// First, Toggle the dropdown so it doesnt try to drop when its not there anymore
+	dom.toggleDropdown(btn.parentElement.parentElement);
+	dom.projects.removeFromSidebar(btn); // Then, run main func
+}))
+
 // Content Project Dropdown
 let contentDropdown = document.querySelectorAll('#content .dropdown h6');
 contentDropdown.forEach(dropdown => dropdown.addEventListener('click', () => dom.toggleDropdown(dropdown)));
@@ -76,7 +84,6 @@ radioBtns.forEach(btn => btn.addEventListener('change', () => {
 
 // Edit Todo listener
 let editBtn = document.querySelectorAll('.card .priority img');
-let editCard;
 editBtn.forEach(btn => btn.addEventListener('click', () => { dom.editCard(btn) }))
 
 // Edit Add/Create Project Listener
