@@ -23,7 +23,7 @@ let projDel = document.querySelectorAll('.proj-del');
 projDel.forEach(btn => btn.addEventListener('click', () => {
 	// First, Toggle the dropdown so it doesnt try to drop when its not there anymore
 	dom.toggleDropdown(btn.parentElement.parentElement);
-	dom.projects.removeFromSidebar(btn); // Then, run main func
+	dom.projects.removeProject(btn); // Then, run main func
 }))
 
 // Content Project Dropdown
