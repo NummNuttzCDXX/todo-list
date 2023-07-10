@@ -1,6 +1,12 @@
+@font-face {
+	font-family: handwriting;
+	src: url('../src/img/Caveat-VariableFont_wght.ttf');
+}
+
 :root {
 	/* Dynamic font-size -- screen width */
 	font-size: clamp(16px, 3vw, 3vh);
+	font-family: handwriting, sans-serif;
 
 	/* Color Pallete -- Mixed Dark Mode */
 	--color-primary-500: #a688fa;
@@ -44,6 +50,7 @@ header {
 
 button {
 	font-size: 1rem;
+	font-family: inherit;
 	width: 7vw;
 	min-width: fit-content;
 	height: 1.3rem;
