@@ -4,5 +4,5 @@
 export const Todo = (title, desc, due, priority, project) => {
 	let completed = false;
 
-	return {title, desc, due, priority, setPriority, project, completed}
+	return {title, desc, due, priority, project, completed}
 }
