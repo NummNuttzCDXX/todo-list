@@ -5,13 +5,18 @@ import editIcon from './img/pencil.svg';
 import dropArrow from './img/expand_more_dropdown.svg';
 import { toDos } from "./index";
 import closeX from './img/close-X.svg';
+// storage module
+import { store } from "./storage";
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
 
 	const createCard = (item) => {
 		const card = document.createElement('div');
-		card.classList.add('card');
+		card.classList.add('card', item.priority);
+
+		// Add index to card data attr
+		card.setAttribute('data', toDos.length - 1)
 
 		// Title
 		const title = document.createElement('div');
@@ -225,12 +230,10 @@ export const dom = (() => {
 
 		// Create Todo
 		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
+		toDos.push(newTodo);
 
 		// Create card to hold Obj
 		const card = createCard(newTodo);
-
-		// Add Priority Class to Card
-		card.classList.add(priorityInp.value)
 
 		// Create and add Todo to Project sidebar and Content Project
 		if (radioBtn.id === 'add') {
@@ -261,6 +264,9 @@ export const dom = (() => {
 
 		// Clear form inputs
 		clearInputs()
+
+		// locally store new Todo
+		store.todos.update(toDos)
 		
 		return { newTodo, card }
 	}
@@ -382,6 +388,9 @@ export const dom = (() => {
 		todo.priority = priority.value;
 		todo.project = project;
 
+		// Update local storage
+		store.todos.update(toDos);
+
 		// Remove old card and Create new one
 		const index = card.getAttribute('data'); // Get index of card
 		const newCard = createCard(todo);
@@ -491,6 +500,9 @@ export const dom = (() => {
 					const contentPriority = document.querySelector(`#content #${todo.priority}`)
 					contentPriority.appendChild(card);
 					contentPriority.classList.remove('hide');
+
+					// Update todo.project
+					todo.project = todo.priority
 				}
 			})
 
@@ -505,6 +517,9 @@ export const dom = (() => {
 
 			// Remove project option from select box
 			removeFromSelect(project.id.toLowerCase());
+
+			// Update local storage
+			store.todos.update(toDos);
 		}
 
 		// Add ToDo to a project in the sidebar
@@ -603,5 +618,36 @@ export const dom = (() => {
 		return { addToSidebar, addTodo, addToContent, checkUpcoming, removeTodoSide, removeProject }
 	})()
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard }
+	// Place saved Projects and Todos on the DOM
+	const renderInfo = () => {
+		if (store.todos.get() === false) {
+			// If func returns false, do nothing -- return out of this func
+			return;
+		}
+		// Retrieve locally stored data
+		const todos = store.todos.get();
+
+		todos.forEach(todo => {
+			toDos.push(todo); // Re-Add todo Obj to Array
+			const card = createCard(todo); // Create new card for each todo
+
+			// If Custom Project -- Add Project and Todo to sidebar
+			if (todo.project !== todo.priority) {
+				// Add to sidebar
+				projects.addTodo(projects.addToSidebar(todo.project), todo);
+				// Add to content
+				projects.addToContent(todo.project, card);
+			} else { // Else, Default Project
+				// Add to Content
+				const contentDropdown = document.querySelector(`#content #${todo.priority}`);
+				contentDropdown.appendChild(card);
+				contentDropdown.classList.remove('hide');
+				// Add to Sidebar
+				const sideDropdown = document.querySelector(`#sidebar #${todo.priority}`);
+				projects.addTodo(sideDropdown, todo);
+			}
+		})
+	}
+
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard, renderInfo }
 })()
