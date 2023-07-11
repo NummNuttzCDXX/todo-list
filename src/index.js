@@ -1,12 +1,10 @@
 // Main File
 
 import { dom } from "./dom";
-import { Todo } from "./todo"; //TEMP
 
-// Declare array to hold ToDo Obj
-// With Example 
-let exampleTodo = Todo('Feed the cat', 'Food and Water', 'Everyday', 'medium', 'medium'); //TEMP
-export let toDos = [ exampleTodo ];
+// Declare array to hold ToDo Obj and projects
+export let toDos = [];
+
 // Get dropdowns
 let dropdowns = document.querySelectorAll('#sidebar .dropdown');
 
@@ -54,12 +52,7 @@ subBtn.addEventListener('click', () => {
 		document.querySelectorAll('form :required').forEach(input => input.classList.remove('fail'));
 	}
 
-	let item = dom.subTodo();
-
-	toDos.push(item.newTodo);
-
-	// Add index to card data attr
-	item.card.setAttribute('data', toDos.length - 1)
+	dom.subTodo();
 
 	// Toggle Form Off
 	const formContainer = document.querySelector('#form-container');
@@ -102,3 +95,6 @@ editRadio.forEach(btn => btn.addEventListener('change', () => {
 		createProj.classList.remove('hide');
 	}
 }))
+
+// Load locally stored data
+dom.renderInfo();
