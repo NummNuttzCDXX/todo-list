@@ -573,7 +573,9 @@ export const dom = (() => {
 		}
 
 		const addToSelect = (name) => {
-			const selectBoxs = document.querySelectorAll('form select');
+			const newSelect = document.querySelector('form #add-proj');
+			const editSelect = document.querySelector('form #edit-proj');
+			const selectBoxs = [newSelect, editSelect];
 
 			selectBoxs.forEach(box => {
 				const opt = document.createElement('option');
@@ -587,7 +589,9 @@ export const dom = (() => {
 		}
 
 		const removeFromSelect = (name) => {
-			const selectBoxs = document.querySelectorAll('form select');
+			const newSelect = document.querySelector('form #add-proj');
+			const editSelect = document.querySelector('form #edit-proj');
+			const selectBoxs = [newSelect, editSelect];
 
 			selectBoxs.forEach(box => {
 				const children = Array.from(box.children);
