@@ -1,12 +1,13 @@
 // Dom Manipulation Module
 import { Todo } from "./todo";
+import { toDos } from "./index";
+import { store } from "./storage";
 import { format, parseISO, formatDistanceToNow, isPast } from "date-fns";
 import editIcon from './img/pencil.svg';
 import dropArrow from './img/expand_more_dropdown.svg';
-import { toDos } from "./index";
 import closeX from './img/close-X.svg';
-// storage module
-import { store } from "./storage";
+import blankCheckbox from './img/check_box_blank.svg';
+import checkedBox from './img/select_check_box.svg';
 
 export const dom = (() => {
 	const content = document.querySelector('#content');
@@ -22,6 +23,14 @@ export const dom = (() => {
 		const title = document.createElement('div');
 		title.classList.add('title');
 		title.textContent = item.title;
+
+		// Checkbox to Title
+		const checkbox = new Image();
+		checkbox.classList.add('checkbox', 'incomplete');
+		checkbox.src = blankCheckbox;
+		checkbox.alt = 'Empty Checkbox';
+		title.prepend(checkbox);
+		checkbox.addEventListener('click', () => toggleCheckbox(checkbox, item));
 
 		// Description
 		const descContainer = document.createElement('div');
@@ -93,6 +102,34 @@ export const dom = (() => {
 			// Remove listener
 			editSubBtn.removeEventListener('click', editTodo)
 		}
+	}
+
+	// Toggle Checkbox -- Will run on checkbox click
+	const toggleCheckbox = (box, todo) => {
+		if (box.classList.contains('incomplete')) {
+			box.classList.remove('incomplete');
+			box.classList.add('complete');
+
+			box.src = checkedBox;
+			box.alt = 'Completed Checkbox';
+
+			if (todo === undefined) { return; }
+			todo.completed = true;
+		} else if (box.classList.contains('complete')) {
+			box.classList.add('incomplete');
+			box.classList.remove('complete');
+
+			box.src = blankCheckbox;
+			box.alt = 'Empty Checkbox';
+
+			if (todo === undefined) { return; }
+			todo.completed = false;
+		} else {
+			// ERROR CHECK
+			console.log('ERROR: CHECKBOX FAILED');
+		}
+
+		console.log(todo)
 	}
 
 	const toggleCardDrop = (card) => {
@@ -653,5 +690,5 @@ export const dom = (() => {
 		})
 	}
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard, renderInfo }
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard, renderInfo, toggleCheckbox }
 })()

@@ -16,6 +16,16 @@ dropdowns.forEach(project => project.addEventListener('click', () => dom.toggleD
 let cards = document.querySelectorAll('.card');
 cards.forEach(card => card.addEventListener('click', () => dom.toggleCardDrop(card)));
 
+// Completed Checkbox 
+const checkboxs = document.querySelectorAll('.checkbox');
+checkboxs.forEach(box => {
+	// Get todo
+	const index = box.parentElement.parentElement.getAttribute('data');
+	box.addEventListener('click', dom.toggleCheckbox(box, toDos[index]))
+})
+const defBox = document.querySelector('.card.default .title .checkbox');
+defBox.addEventListener('click', () =>  dom.toggleCheckbox(defBox))
+
 // Add Dropdown Project Delete listener
 let projDel = document.querySelectorAll('.proj-del');
 projDel.forEach(btn => btn.addEventListener('click', () => {
