@@ -105,6 +105,21 @@ button {
 	visibility: visible;
 }
 
+#dropdown-wrapper {
+	margin: 5px;
+	border: 2px solid var(--color-surface-mixed-200);
+	border-radius: 12px;
+}
+
+#dropdown-wrapper h4 {
+	margin-top: 5px;
+	text-decoration-line: underline;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .dropdown {
 	margin-left: 5px;
 }
@@ -265,9 +280,12 @@ button {
 	filter: invert(56%) sepia(52%) saturate(1616%) hue-rotate(215deg) brightness(100%) contrast(97%);
 }
 
+/* Everything that needs a Cursor pointer */
 .card .priority img:hover,
-.dropdown p,
-.dropdown h6 {
+.dropdown p, .dropdown h6, h4.dropdown,
+ button, .checkbox, .card, .close-box,
+input[type="date"], input[type="time"],
+select {
 	cursor: pointer;
 }
 
