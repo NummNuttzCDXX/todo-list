@@ -369,8 +369,24 @@ export const dom = (() => {
 	}
 
 	const toggleDropdown = (dropdown) => {
-		// Check if dropdown is in sidebar
-		if (dropdown.parentElement === document.querySelector('#sidebar')) {
+		// Check if dropdown is Priority dropdown in sidebar
+		if (dropdown === document.querySelector('#dropdown-wrapper').firstElementChild) {
+			const dropWrapper = document.querySelector('#dropdown-wrapper');
+			if (dropdown.classList.contains('collapse')) {
+				dropdown.classList.remove('collapse');
+				const dropChildren = Array.from(dropWrapper.children)
+				dropChildren.forEach(child => {
+					if (child !== dropChildren[0] && child.lastElementChild.firstElementChild.childElementCount > 0) {
+						child.classList.remove('hide')
+					} 
+				})
+			} else {
+				dropdown.classList.add('collapse');
+				Array.from(dropWrapper.children).forEach(child => child.classList.add('hide'));
+			}
+			toggleArrowFlip(dropdown.lastElementChild)
+			// Check if dropdown is in sidebar
+		} else if (dropdown.parentElement === document.querySelector('#sidebar') || dropdown.parentElement.parentElement === document.querySelector('#sidebar')) {
 			// Toggle dropdown
 			if (dropdown.lastElementChild.style.display === 'block') {
 			dropdown.lastElementChild.style.display = 'none';
