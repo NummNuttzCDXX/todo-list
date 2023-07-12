@@ -112,3 +112,15 @@ editRadio.forEach(btn => btn.addEventListener('change', () => {
 		createProj.classList.remove('hide');
 	}
 }))
+
+// Delete local data 
+const delDataBtn = document.querySelector('button.delete');
+delDataBtn.addEventListener('click', () => {
+	const input = prompt('Are you sure? (y/n)')
+	if (input === 'y' || input === 'yes') {
+		window.localStorage.clear();
+		alert('Deleting locally stored data');
+	} else if (input === 'n' || input === 'no') {
+		return;
+	}
+})
