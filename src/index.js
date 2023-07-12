@@ -5,6 +5,9 @@ import { dom } from "./dom";
 // Declare array to hold ToDo Obj and projects
 export let toDos = [];
 
+// Load locally stored data
+dom.renderInfo();
+
 // Get dropdowns
 let dropdowns = document.querySelectorAll('#sidebar .dropdown');
 
@@ -21,10 +24,14 @@ const checkboxs = document.querySelectorAll('.checkbox');
 checkboxs.forEach(box => {
 	// Get todo
 	const index = box.parentElement.parentElement.getAttribute('data');
-	box.addEventListener('click', dom.toggleCheckbox(box, toDos[index]))
+	box.addEventListener('click', () => dom.toggleCheckbox(box, toDos[index]))
 })
-const defBox = document.querySelector('.card.default .title .checkbox');
-defBox.addEventListener('click', () =>  dom.toggleCheckbox(defBox))
+
+// Add Delete Todo listener
+cards.forEach(card => {
+	const delBtn = card.lastElementChild.lastElementChild;
+	delBtn.addEventListener('click', () => { dom.deleteCard(card) });
+})
 
 // Add Dropdown Project Delete listener
 let projDel = document.querySelectorAll('.proj-del');
@@ -86,7 +93,7 @@ radioBtns.forEach(btn => btn.addEventListener('change', () => {
 }))
 
 // Edit Todo listener
-let editBtn = document.querySelectorAll('.card .priority img');
+let editBtn = document.querySelectorAll('.card .priority img:nth-child(1)');
 editBtn.forEach(btn => btn.addEventListener('click', () => { dom.editCard(btn) }))
 
 // Edit Add/Create Project Listener
@@ -105,6 +112,3 @@ editRadio.forEach(btn => btn.addEventListener('change', () => {
 		createProj.classList.remove('hide');
 	}
 }))
-
-// Load locally stored data
-dom.renderInfo();

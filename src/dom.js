@@ -30,7 +30,6 @@ export const dom = (() => {
 		checkbox.src = blankCheckbox;
 		checkbox.alt = 'Empty Checkbox';
 		title.prepend(checkbox);
-		checkbox.addEventListener('click', () => toggleCheckbox(checkbox, item));
 
 		// Description
 		const descContainer = document.createElement('div');
@@ -61,8 +60,12 @@ export const dom = (() => {
 		edit.src = editIcon;
 		edit.alt = 'Pencil Icon(Edit)';
 		priority.appendChild(edit);
-		// Edit Btn Listener
-		edit.addEventListener('click', () => { editCard(edit) })
+
+		// Delete todo btn
+		const del = new Image();
+		del.src = closeX;
+		del.alt = 'Delete Todo';
+		priority.appendChild(del);
 
 		// Append elements to Card
 		card.appendChild(title);
@@ -70,10 +73,26 @@ export const dom = (() => {
 		card.appendChild(due);
 		card.appendChild(priority);
 
-		// Add collapse listener
-		card.addEventListener('click', () => toggleCardDrop(card))
-
 		return card;
+	}
+
+	const addCardListeners = (card = HTMLDivElement) => {
+		// Get card btns
+		const editBtn = card.lastElementChild.firstElementChild;
+		const delBtn = card.lastElementChild.lastElementChild;
+		const checkbox = card.firstElementChild.firstElementChild;
+
+		// Add listeners
+		// Checkbox
+		checkbox.addEventListener('click', () => {
+			toggleCheckbox(checkbox, toDos[card.getAttribute('data')]);
+		})
+		// Edit Icon
+		editBtn.addEventListener('click', () => editCard(editBtn));
+		// Delete Todo Btn
+		delBtn.addEventListener('click', () => deleteCard(card));
+		// Card Collapse
+		card.addEventListener('click', () => toggleCardDrop(card));
 	}
 
 	// This function gets run on Edit Icon Click
@@ -104,8 +123,20 @@ export const dom = (() => {
 		}
 	}
 
+	// Delete Todo and Card off DOM -- Runs when X is clicked
+	const deleteCard = (card) => {
+		// Delete todo from array
+		// Empty space should be fixed on page reload
+		delete toDos[card.getAttribute('data')]; // All data attr on cards would be wrong if we removed the empty space in array
+		card.remove(); // Remove Card
+		// Update local storage
+		store.todos.update(toDos);
+	}
+
 	// Toggle Checkbox -- Will run on checkbox click
 	const toggleCheckbox = (box, todo) => {
+		toggleCardDrop(box.parentElement.parentElement)
+
 		if (box.classList.contains('incomplete')) {
 			box.classList.remove('incomplete');
 			box.classList.add('complete');
@@ -128,8 +159,6 @@ export const dom = (() => {
 			// ERROR CHECK
 			console.log('ERROR: CHECKBOX FAILED');
 		}
-
-		console.log(todo)
 	}
 
 	const toggleCardDrop = (card) => {
@@ -271,6 +300,9 @@ export const dom = (() => {
 
 		// Create card to hold Obj
 		const card = createCard(newTodo);
+
+		// Add Card Listeners
+		addCardListeners(card);
 
 		// Create and add Todo to Project sidebar and Content Project
 		if (radioBtn.id === 'add') {
@@ -669,26 +701,29 @@ export const dom = (() => {
 		const todos = store.todos.get();
 
 		todos.forEach(todo => {
-			toDos.push(todo); // Re-Add todo Obj to Array
-			const card = createCard(todo); // Create new card for each todo
+			if (todo !== null) {
+				toDos.push(todo); // Re-Add todo Obj to Array
+				const card = createCard(todo); // Create new card for each todo
 
-			// If Custom Project -- Add Project and Todo to sidebar
-			if (todo.project !== todo.priority) {
-				// Add to sidebar
-				projects.addTodo(projects.addToSidebar(todo.project), todo);
-				// Add to content
-				projects.addToContent(todo.project, card);
-			} else { // Else, Default Project
-				// Add to Content
-				const contentDropdown = document.querySelector(`#content #${todo.priority}`);
-				contentDropdown.appendChild(card);
-				contentDropdown.classList.remove('hide');
-				// Add to Sidebar
-				const sideDropdown = document.querySelector(`#sidebar #${todo.priority}`);
-				projects.addTodo(sideDropdown, todo);
+				// If Custom Project -- Add Project and Todo to sidebar
+				if (todo.project !== todo.priority) {
+					// Add to sidebar
+					projects.addTodo(projects.addToSidebar(todo.project), todo);
+					// Add to content
+					projects.addToContent(todo.project, card);
+				} else { // Else, Default Project
+					// Add to Content
+					const contentDropdown = document.querySelector(`#content #${todo.priority}`);
+					contentDropdown.appendChild(card);
+					contentDropdown.classList.remove('hide');
+					// Add to Sidebar
+					const sideDropdown = document.querySelector(`#sidebar #${todo.priority}`);
+					projects.addTodo(sideDropdown, todo);
+				}
 			}
 		})
 	}
 
-	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard, renderInfo, toggleCheckbox }
+	return { subTodo, checkRequired, content, toggleDropdown, projects, clearInputs, toggleCardDrop, showForm, subEdit, editCard, renderInfo,
+			toggleCheckbox, deleteCard }
 })()
