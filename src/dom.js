@@ -108,11 +108,25 @@ export const dom = (() => {
 		// Toggle card drop
 		toggleCardDrop(editBtn.parentElement.parentElement)
 
-		// Show edit form/Hide add form
-		showForm(document.querySelector('form#edit'));
-
 		// Save editted card for later use
 		let editCard = editBtn.parentElement.parentElement;
+		let todoEdit = toDos[editCard.getAttribute('data')];
+
+		// Set form inputs to Current Card Info
+		document.querySelector('#edit #new-title').value = todoEdit.title;
+		document.querySelector('#edit #new-desc').value = todoEdit.desc;
+		document.querySelector('#edit #new-date').value = todoEdit.date;
+		document.querySelector('#edit #new-time').value = todoEdit.time;
+		document.querySelector('#edit #new-priority').value = todoEdit.priority;
+		const project = document.querySelector('#edit #edit-proj');
+		if (todoEdit.project === todoEdit.priority) {
+			project.value = 'default';
+		} else {
+			project.value = todoEdit.project;
+		}
+
+		// Show edit form/Hide add form
+		showForm(document.querySelector('form#edit'));
 
 		// Edit Form Submit Button
 		const editSubBtn = document.querySelector('#edit button');
@@ -120,7 +134,6 @@ export const dom = (() => {
 
 		// Nested Function: Gets run on Edit Form Submit Btn
 		function editTodo() {
-			let todoEdit = toDos[editCard.getAttribute('data')];
 			let items = subEdit(editCard, todoEdit);
 
 			// hide form
