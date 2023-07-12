@@ -601,6 +601,7 @@ export const dom = (() => {
 
 		// Add ToDo to a project in the sidebar
 		const addTodo = (projectDropdown, todo) => {
+			projectDropdown.classList.remove('hide');
 			const ul = projectDropdown.lastElementChild.lastElementChild;
 			const li = document.createElement('li');
 
