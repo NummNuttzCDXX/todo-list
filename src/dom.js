@@ -26,9 +26,15 @@ export const dom = (() => {
 
 		// Checkbox to Title
 		const checkbox = new Image();
-		checkbox.classList.add('checkbox', 'incomplete');
-		checkbox.src = blankCheckbox;
-		checkbox.alt = 'Empty Checkbox';
+		if (item.completed === true) {  // If completed, add checked box
+			checkbox.classList.add('checkbox', 'complete');
+			checkbox.src = checkedBox;
+			checkbox.alt = 'Completed Checkbox';
+		} else {  // Else, add blank box
+			checkbox.classList.add('checkbox', 'incomplete');
+			checkbox.src = blankCheckbox;
+			checkbox.alt = 'Empty Checkbox';
+		}
 		title.prepend(checkbox);
 
 		// Description
@@ -159,6 +165,8 @@ export const dom = (() => {
 			// ERROR CHECK
 			console.log('ERROR: CHECKBOX FAILED');
 		}
+		// Update local storage
+		store.todos.update(toDos);
 	}
 
 	const toggleCardDrop = (card) => {
