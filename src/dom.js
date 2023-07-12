@@ -48,7 +48,7 @@ export const dom = (() => {
 		// Due Date
 		const due = document.createElement('div');
 		due.classList.add('due');
-		due.textContent = item.due;
+		due.textContent = dateFormat(item.date, item.time);
 
 		// Priority
 		const priority = document.createElement('div');
@@ -295,7 +295,7 @@ export const dom = (() => {
 		if (dateFormat(dateInp.value, timeInp.value) === false) { return }
 
 		// Create Todo
-		let newTodo = Todo(titleInp.value, descInp.value, dateFormat(dateInp.value, timeInp.value), priorityInp.value, project);
+		let newTodo = Todo(titleInp.value, descInp.value, { date: dateInp.value, time: timeInp.value }, priorityInp.value, project);
 		toDos.push(newTodo);
 
 		// Create card to hold Obj
@@ -709,13 +709,25 @@ export const dom = (() => {
 				if (todo.project !== todo.priority) {
 					// Add to sidebar
 					projects.addTodo(projects.addToSidebar(todo.project), todo);
-					// Add to content
-					projects.addToContent(todo.project, card);
+
+					if (projects.checkUpcoming(todo.date)) {
+						const upcomingDrop = document.querySelector('#content #upcoming');
+						upcomingDrop.appendChild(card);
+					} else {
+						// Add to content
+						projects.addToContent(todo.project, card);
+					}
 				} else { // Else, Default Project
-					// Add to Content
-					const contentDropdown = document.querySelector(`#content #${todo.priority}`);
-					contentDropdown.appendChild(card);
-					contentDropdown.classList.remove('hide');
+					if (projects.checkUpcoming(todo.date)) {
+						const upcomingDrop = document.querySelector('#content #upcoming');
+						upcomingDrop.appendChild(card);
+					} else {
+						// Add to Content
+						const contentDropdown = document.querySelector(`#content #${todo.priority}`);
+						contentDropdown.appendChild(card);
+						contentDropdown.classList.remove('hide');
+					}
+					
 					// Add to Sidebar
 					const sideDropdown = document.querySelector(`#sidebar #${todo.priority}`);
 					projects.addTodo(sideDropdown, todo);
