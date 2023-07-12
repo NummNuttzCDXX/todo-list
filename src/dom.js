@@ -14,7 +14,7 @@ export const dom = (() => {
 
 	const createCard = (item) => {
 		const card = document.createElement('div');
-		card.classList.add('card', item.priority);
+		card.classList.add('card', item.priority, 'collapse');
 
 		// Add index to card data attr
 		card.setAttribute('data', toDos.length - 1)
@@ -40,6 +40,7 @@ export const dom = (() => {
 		// Description
 		const descContainer = document.createElement('div');
 		descContainer.classList.add('desc');
+		descContainer.style.display = 'none';
 
 		const descHead = document.createElement('h5');
 		descHead.classList.add('head');
@@ -58,6 +59,7 @@ export const dom = (() => {
 
 		// Priority
 		const priority = document.createElement('div');
+		priority.style.display = 'none';
 		priority.classList.add('priority');
 		priority.textContent = item.priority;
 		
@@ -176,12 +178,10 @@ export const dom = (() => {
 
 		if (card.classList.contains('collapse')) {
 			card.classList.remove('collapse');
-			card.style.display = 'grid';
 			priority.style.display = 'flex';
 			desc.style.display = 'flex';
 		} else {
 			card.classList.add('collapse');
-			card.style.display = 'flex';
 			priority.style.display = 'none';
 			desc.style.display = 'none';
 		}
