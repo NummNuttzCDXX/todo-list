@@ -40,11 +40,22 @@ header {
 
 .nav-container {
 	display: flex;
-	justify-content: end;
+	justify-content: space-between;
+}
+
+/* Delete Btn */
+.nav-container .delete {
+	display: flex;
+	align-items: center;
+}
+
+.nav-container button img {
+	width: 25px;
 }
 
 .nav-container button {
 	margin-right: 20px;
+	margin-left: 20px;
 	margin-bottom: 10px;
 }
 
