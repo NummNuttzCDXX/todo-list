@@ -1,6 +1,6 @@
 @font-face {
 	font-family: handwriting;
-	src: url('../src/img/Caveat-VariableFont_wght.ttf');
+	src: url('./img/Caveat-VariableFont_wght.ttf');
 }
 
 :root {
