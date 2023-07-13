@@ -146,10 +146,14 @@ export const dom = (() => {
 
 	// Delete Todo and Card off DOM -- Runs when X is clicked
 	const deleteCard = (card) => {
+		const todo = toDos[card.getAttribute('data')];
+		// Remove Todo from sidebar
+		projects.removeTodoSide(todo, todo.project);
+
 		// Delete todo from array
-		// Empty space should be fixed on page reload
 		delete toDos[card.getAttribute('data')]; // All data attr on cards would be wrong if we removed the empty space in array
 		card.remove(); // Remove Card
+
 		// Update local storage
 		store.todos.update(toDos);
 	}
