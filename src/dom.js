@@ -398,7 +398,7 @@ export const dom = (() => {
 				Array.from(dropWrapper.children).forEach(child => child.classList.add('hide'));
 			}
 			toggleArrowFlip(dropdown.lastElementChild)
-			// Check if dropdown is in sidebar
+		// Check if dropdown is in sidebar
 		} else if (dropdown.parentElement === document.querySelector('#sidebar') || dropdown.parentElement.parentElement === document.querySelector('#sidebar')) {
 			// Toggle dropdown
 			if (dropdown.lastElementChild.style.display === 'block') {
@@ -423,15 +423,7 @@ export const dom = (() => {
 			children.forEach(child => {
 				// Show/hide each child element except for heading
 				if (child !== children[0]) {
-					if (child.style.display === 'none') {
-						if (child.classList.contains('collapse')) {
-							child.style.display = 'flex';
-						} else {
-							child.style.display = 'grid';
-						}
-					} else {
-						child.style.display = 'none';
-					}
+					child.classList.toggle('hide')
 				}
 			})
 			// Toggle dropdown arrow flip
