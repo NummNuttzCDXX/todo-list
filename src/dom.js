@@ -347,9 +347,12 @@ export const dom = (() => {
 
 				upcomingDrop.appendChild(card);
 			} else {
-				projects.addToContent(project, card);
+				let drop = projects.addToContent(project, card).querySelector('h6');
+				drop.addEventListener('click', () => toggleDropdown(drop));
 			}
-			projects.addTodo(projects.addToSidebar(project), newTodo)
+			let sideDrop = projects.addToSidebar(project);
+			sideDrop.addEventListener('click', () => toggleDropdown(sideDrop));
+			projects.addTodo(sideDrop, newTodo)
 		}
 
 		// Clear form inputs
@@ -661,11 +664,10 @@ export const dom = (() => {
 			dropdown.appendChild(head);
 			dropdown.appendChild(card);
 
-			// Add listener to new dropdown
-			head.addEventListener('click', () => toggleDropdown(head));
-
 			// Add dropdown to content
 			content.appendChild(dropdown);
+
+			return dropdown;
 		}
 
 		const addToSelect = (name) => {
