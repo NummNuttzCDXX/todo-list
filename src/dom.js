@@ -568,9 +568,6 @@ export const dom = (() => {
 			const ul = document.createElement('ul');
 			dropContent.appendChild(ul);
 
-			// Add the listener for dropdown menu
-			dropdown.addEventListener('click', () => toggleDropdown(dropdown));
-
 			// Add dropdown to sidebar
 			sidebar.appendChild(dropdown);
 
