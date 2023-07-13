@@ -374,7 +374,7 @@ form, fieldset {
 }
 
 /* Create project inp hidden by default -- Until selected */
-.content-container .hide, .nav-container .hide {
+.hide, .content-container .hide, .nav-container .hide {
 	display: none;
 }
 
