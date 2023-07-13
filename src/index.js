@@ -8,11 +8,12 @@ export let toDos = [];
 // Load locally stored data
 dom.renderInfo();
 
-// Get dropdowns
-let dropdowns = document.querySelectorAll('#sidebar .dropdown');
+// Add Menu Button Listener (for mobile)
+const menuBtn = document.querySelector('#menu-icon');
+menuBtn.addEventListener('click', () => document.querySelector('#sidebar').classList.toggle('fly-in'));
 
-// Sidebar Project Dropdown
 // Add listeners to dropdowns to toggle dropdown on click
+let dropdowns = document.querySelectorAll('#sidebar .dropdown');
 dropdowns.forEach(project => project.addEventListener('click', () => dom.toggleDropdown(project)));
 
 // Add dropdown listener to cards
