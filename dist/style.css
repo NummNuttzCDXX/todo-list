@@ -84,7 +84,7 @@ button {
 
 #sidebar {
 	width: 15vw;
-	min-width: 100px;
+	min-width: 110px;
 	height: auto;
 	margin-left: 5px;
 	margin-top: 5px;
@@ -138,6 +138,10 @@ button {
 	list-style-type: none;
 
 	padding-left: 20px;
+}
+
+.dropdown-content ul li {
+	border-bottom: 1px dotted var(--color-text-mixed-600);
 }
 
 /* For Mobile -- Sidebar */
@@ -207,6 +211,7 @@ button {
 	height: auto;
 	padding: 5px;
 	margin: 5px 0px;
+	margin-right: 5px;
 
 	background-color: var(--color-surface-mixed-200);
 	border-radius: 12px;
@@ -374,7 +379,7 @@ form, fieldset {
 }
 
 /* Create project inp hidden by default -- Until selected */
-.content-container .hide, .nav-container .hide {
+.hide, .content-container .hide, .nav-container .hide {
 	display: none;
 }
 
