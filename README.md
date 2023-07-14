@@ -1,6 +1,5 @@
 # todo-list
 An Odin Assignment
----
 
 ## Overview
 
